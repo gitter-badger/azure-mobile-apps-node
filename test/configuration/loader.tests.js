@@ -57,7 +57,7 @@ describe('azure-mobile-apps.configuration.loader', function () {
         expect(configuration).to.deep.equal({
             conflict: { source: '.json' }
         });
-    })
+    });
 });
 
 function requireWithRefresh(path) {

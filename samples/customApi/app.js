@@ -2,4 +2,5 @@ var app = require('express')(),
     mobileApp = require('azure-mobile-apps')()
 
 mobileApp.api.import('api')
-mobileApp.api.use()
+app.use(mobileApp)
+app.listen(process.env.PORT)
