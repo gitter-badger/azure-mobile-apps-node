@@ -1,3 +1,6 @@
+// ----------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// ----------------------------------------------------------------------------
 var sinon = require('sinon'),
     sinonPromised = require('sinon-as-promised'),
     expect = require('chai')
@@ -7,16 +10,21 @@ var sinon = require('sinon'),
     express = require('express'),
     nhStub, notifFactoryStub, app, installation;
 
+
 var notificationMiddleware = require('../../../src/express/middleware/notifications');
 
 describe('azure-mobile-apps.express.integration.notifications', function () {
+    before(function () {
+        require('../../../src/logger').configure();
+    });
+    
     beforeEach(function () {
         installation = createInstallation();
 
         nhStub = createNHClientStub();
 
         app = express();
-        app.use(notificationMiddleware({ notifications: { client: nhStub }}));
+        app.use('/push/installations', notificationMiddleware({ notifications: { client: nhStub }}));
     });
 
     it('returns 204 on successful creation', function () {

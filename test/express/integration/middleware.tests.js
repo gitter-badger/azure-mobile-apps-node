@@ -4,9 +4,21 @@
 var expect = require('chai').expect,
     supertest = require('supertest-as-promised'),
     app = require('express')(),
-    mobileApp = require('../../..')();
+    mobileApp,
+    oldConnectionString = process.env.MS_TableConnectionString;
 
 describe('azure-mobile-apps.express.integration.middleware', function () {
+    before(function () {
+        // environment settings override configured settings - hack to force use of the memory provider
+        delete process.env.MS_TableConnectionString;
+        mobileApp = require('../../..')({ skipVersionCheck: true })
+    });
+
+    after(function () {
+        if(oldConnectionString)
+            process.env.MS_TableConnectionString = oldConnectionString;
+    })
+
     it('read middleware is mounted in the correct order', function () {
         return test('read', 'get');
     });
