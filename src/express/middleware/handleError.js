@@ -15,6 +15,8 @@ module.exports = function (configuration) {
             res.status(409).json(req.azureMobile.item);
         else if (err.badRequest)
             res.status(400).json(normaliseError(err));
+        else if (err.unauthorized)
+            res.status(401).json(normaliseError(err))
         else {
             log.error(err);
             res.status(500).json(normaliseError(err));

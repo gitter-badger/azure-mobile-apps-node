@@ -12,6 +12,7 @@ var express = require('express'),
     customApi = require('./api'),
     tables = require('./tables'),
     table = require('./tables/table'),
+    loginTemplates = require('./middleware/loginTemplates'),
     notifications = require('./middleware/notifications'),
     createContext = require('./middleware/createContext'),
     authenticate = require('./middleware/authenticate'),
@@ -50,6 +51,7 @@ module.exports = function (configuration) {
         .use(authenticate(configuration))
         .use(crossOrigin(configuration))
         .use(customMiddlewareRouter)
+        .use(configuration.loginTemplatesPath || '/crossdomain', loginTemplates(configuration))
         .use(configuration.notificationRootPath || '/push/installations', notifications(configuration))
         .use(configuration.apiRootPath || '/api', apiMiddleware)
         .use(configuration.tableRootPath || '/tables', apiVersionCheck(configuration), tableMiddleware, renderResults)

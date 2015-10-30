@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 module.exports = function (req, res, next) {
     if(!req.azureMobile.user)
-        res.status(401).send('You must be logged in to use this application');
+        next({ unauthorized: true, message: 'You must be logged in to use this application' });
     else
         next();
 };
